@@ -1,0 +1,25 @@
+# P0912 ECOMMERCE — Dependências de desenvolvimento e teste
+#
+# Inclui o runtime via -r requirements.txt + as ferramentas das
+# Aulas 2-9 (testes Smoke/Functional/Integration/Regression/
+# Stress/Security/UI/Fuzz/Load) e da Aula 1 (auditoria de
+# pacotes terceiros via pip-audit).
+#
+# Compatibilidade: Python 3.11.x a 3.14.x.
+
+-r requirements.txt
+
+# ── Aulas 2-6: pytest + helpers ─────────────────────────────────
+pytest>=8.3,<9
+pytest-asyncio>=0.24,<1
+httpx>=0.28,<1
+
+# ── Aulas 7-9: ferramentas especializadas ───────────────────────
+locust>=2.32,<3
+schemathesis>=3.36,<4
+playwright>=1.48,<2
+pytest-playwright>=0.5,<1
+
+# ── Aula 1: GC&D — auditoria de pacotes terceiros ──────────────
+pip-audit>=2.7.3,<3
+pip-tools>=7.4,<8

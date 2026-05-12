@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Compra finalizada · {{ app_name }}{% endblock %}
+
+{% block content %}
+<section data-testid="sucesso-section" class="centered">
+    <h1>Compra finalizada</h1>
+
+    {% if pedido_id %}
+    <p data-testid="sucesso-mensagem">
+        Seu pedido <strong data-testid="sucesso-pedido-id">#{{ pedido_id }}</strong>
+        foi aprovado com sucesso.
+    </p>
+    {% else %}
+    <p data-testid="sucesso-mensagem">Compra concluída.</p>
+    {% endif %}
+
+    <div class="acoes">
+        <a href="/pedidos" data-testid="link-ver-pedidos" class="btn-primary">Ver meus pedidos</a>
+        <a href="/" data-testid="link-voltar-catalogo">Voltar ao catálogo</a>
+    </div>
+</section>
+{% endblock %}

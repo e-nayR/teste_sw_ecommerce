@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Finalizar compra · {{ app_name }}{% endblock %}
+
+{% block content %}
+<section data-testid="checkout-section" class="form-section">
+    <h1>Finalizar compra</h1>
+
+    {% if erro %}
+    <div data-testid="error-message" class="error">
+        {% if erro == "carrinho_vazio" %}
+            Seu carrinho está vazio.
+        {% elif erro == "dados_invalidos" %}
+            Dados do pagamento inválidos.
+        {% else %}
+            {{ erro }}
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% if carrinho.itens %}
+    <div class="resumo-checkout" data-testid="resumo-checkout">
+        <h2>Resumo</h2>
+        <ul>
+            {% for item in carrinho.itens %}
+            <li data-testid="checkout-item-{{ item.produto_id }}">
+                {{ item.nome_produto }} × {{ item.quantidade }} —
+                R$ {{ "%.2f"|format(item.subtotal) }}
+            </li>
+            {% endfor %}
+        </ul>
+        <p>Total: <strong data-testid="checkout-total">R$ {{ "%.2f"|format(carrinho.total_sem_desconto) }}</strong></p>
+    </div>
+
+    <form action="/checkout" method="POST" data-testid="form-checkout">
+        <label for="cartao">Cartão (formato 0000-0000-0000-0000):</label>
+        <input type="text" id="cartao" name="cartao"
+               pattern="\d{4}-\d{4}-\d{4}-\d{4}"
+               placeholder="1234-5678-9012-3456" required
+               data-testid="input-cartao">
+
+        <label for="desconto_percentual">Desconto (%) — opcional:</label>
+        <input type="number" id="desconto_percentual" name="desconto_percentual"
+               min="0" max="100" step="0.01" value="0"
+               data-testid="input-desconto-checkout">
+
+        <button type="submit" data-testid="btn-finalizar">Pagar agora</button>
+    </form>
+    {% else %}
+    <div class="carrinho-vazio" data-testid="carrinho-vazio">
+        <p>Não há itens para finalizar.</p>
+        <a href="/" data-testid="link-voltar-catalogo">Voltar ao catálogo</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

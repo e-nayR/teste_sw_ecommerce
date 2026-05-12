@@ -1,0 +1,38 @@
+# P0912 ECOMMERCE — Dependências de runtime
+#
+# Versões pinadas com upper-bound em SemVer-major para evitar
+# breaking changes silenciosos. A versão exata + hashes está em
+# requirements.lock (gerado por pip-compile).
+#
+# Para regenerar o lock:
+#   pip-compile --generate-hashes requirements.txt -o requirements.lock
+
+# ================================================================================
+#
+# Principais bibliotecas necessárias para o projeto
+
+# pip cache purge
+
+# python.exe -m pip install --upgrade pip
+
+# pip install -r requirements.txt
+
+# pip freeze > dependencias_atuais.txt
+
+# pip check
+
+# ================================================================================
+
+fastapi>=0.111,<0.120
+uvicorn[standard]>=0.30,<0.40
+pydantic>=2.7,<3
+pydantic-settings>=2.3,<3
+sqlalchemy>=2.0,<3
+alembic>=1.13,<2
+jinja2>=3.1,<4
+PyJWT>=2.8,<3
+bcrypt>=4.1,<5
+python-multipart>=0.0.9,<1
+python-dotenv>=1.0,<2
+email-validator>=2.0,<3
+# ================================================================================

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Meus pedidos · {{ app_name }}{% endblock %}
+
+{% block content %}
+<section data-testid="pedidos-section">
+    <h1>Meus pedidos</h1>
+
+    {% if pedidos %}
+    <ul class="lista-pedidos" data-testid="lista-pedidos">
+        {% for pedido in pedidos %}
+        <li class="pedido-card" data-testid="pedido-card-{{ pedido.id }}">
+            <header>
+                <h2 data-testid="pedido-id-{{ pedido.id }}">Pedido #{{ pedido.id }}</h2>
+                <span class="status status-{{ pedido.status }}"
+                      data-testid="pedido-status-{{ pedido.id }}">{{ pedido.status }}</span>
+            </header>
+            <p data-testid="pedido-data-{{ pedido.id }}">
+                <small>{{ pedido.criado_em.strftime("%d/%m/%Y %H:%M") }}</small>
+            </p>
+            <ul>
+                {% for item in pedido.itens %}
+                <li data-testid="pedido-{{ pedido.id }}-item-{{ item.produto_id }}">
+                    {{ item.nome_produto }} × {{ item.quantidade }} —
+                    R$ {{ "%.2f"|format(item.preco_unitario * item.quantidade) }}
+                </li>
+                {% endfor %}
+            </ul>
+            <p>Total:
+                <strong data-testid="pedido-total-{{ pedido.id }}">
+                    R$ {{ "%.2f"|format(pedido.total) }}
+                </strong>
+            </p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <div class="lista-vazia" data-testid="pedidos-vazio">
+        <p>Você ainda não tem pedidos.</p>
+        <a href="/" data-testid="link-voltar-catalogo">Ir ao catálogo</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

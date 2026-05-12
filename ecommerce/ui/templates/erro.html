@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}Erro · {{ app_name }}{% endblock %}
+
+{% block content %}
+<section data-testid="erro-section" class="centered">
+    <h1>Algo deu errado</h1>
+
+    <div data-testid="error-message" class="error">
+        {% if msg == "pagamento_recusado" %}
+            O pagamento foi recusado pelo provedor.
+        {% elif msg == "falha_no_checkout" %}
+            Não foi possível finalizar a compra.
+        {% else %}
+            {{ msg }}
+        {% endif %}
+    </div>
+
+    <div class="acoes">
+        <a href="/carrinho" data-testid="link-voltar-carrinho" class="btn-primary">Voltar ao carrinho</a>
+        <a href="/" data-testid="link-voltar-catalogo">Ir ao catálogo</a>
+    </div>
+</section>
+{% endblock %}

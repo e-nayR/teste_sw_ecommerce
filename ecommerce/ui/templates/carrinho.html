@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Carrinho · {{ app_name }}{% endblock %}
+
+{% block content %}
+<section data-testid="carrinho-section">
+    <h1>Meu carrinho</h1>
+
+    {% if erro %}
+    <div data-testid="error-message" class="error">{{ erro }}</div>
+    {% endif %}
+
+    {% if carrinho.itens %}
+    <table data-testid="tabela-carrinho" class="tabela-carrinho">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Qtde</th>
+                <th>Preço unitário</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in carrinho.itens %}
+            <tr data-testid="linha-item-{{ item.produto_id }}">
+                <td data-testid="item-nome-{{ item.produto_id }}">{{ item.nome_produto }}</td>
+                <td data-testid="item-qtde-{{ item.produto_id }}">{{ item.quantidade }}</td>
+                <td data-testid="item-preco-{{ item.produto_id }}">R$ {{ "%.2f"|format(item.preco_unitario) }}</td>
+                <td data-testid="item-subtotal-{{ item.produto_id }}">R$ {{ "%.2f"|format(item.subtotal) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="resumo">
+        <p>Total sem desconto:
+            <strong data-testid="carrinho-total-sem">R$ {{ "%.2f"|format(total_sem_desconto) }}</strong>
+        </p>
+
+        <form action="/carrinho" method="GET" class="form-desconto" data-testid="form-preview-desconto">
+            <label for="desconto">Desconto (%):</label>
+            <input type="number" id="desconto" name="desconto" min="0" max="100" step="0.01"
+                   value="{{ desconto_percentual }}" data-testid="input-desconto">
+            <button type="submit" data-testid="btn-preview-desconto">Recalcular</button>
+        </form>
+
+        {% if desconto_percentual %}
+        <p>Desconto:
+            <span data-testid="carrinho-valor-desconto">R$ {{ "%.2f"|format(valor_desconto) }}</span>
+            ({{ desconto_percentual }}%)
+        </p>
+        <p>Total com desconto:
+            <strong data-testid="carrinho-total-com">R$ {{ "%.2f"|format(total_com_desconto) }}</strong>
+        </p>
+        {% endif %}
+
+        <p class="aviso-desconto">
+            <small>O desconto digitado aqui é apenas uma simulação;
+            ele só é aplicado no momento da finalização da compra.</small>
+        </p>
+    </div>
+
+    <div class="acoes">
+        <form action="/carrinho/limpar" method="POST" class="inline-form"
+              data-testid="form-limpar"
+              onsubmit="return confirm('Esvaziar o carrinho?');">
+            <button type="submit" data-testid="btn-limpar-carrinho">Esvaziar</button>
+        </form>
+        <a href="/checkout" class="btn-primary" data-testid="link-checkout">Finalizar compra</a>
+    </div>
+
+    {% else %}
+    <div class="carrinho-vazio" data-testid="carrinho-vazio">
+        <p>Seu carrinho está vazio.</p>
+        <a href="/" data-testid="link-voltar-catalogo">Voltar ao catálogo</a>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

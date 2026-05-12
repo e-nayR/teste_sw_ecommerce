@@ -1,0 +1,71 @@
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# P0912_ECOMMERCE — .gitignore
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# --- Bytecode e caches Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# --- Distribuição / empacotamento ---
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# --- Ambientes virtuais ---
+.venv/
+venv/
+env/
+ENV/
+.python-version.local
+
+# --- Arquivos de configuração local (NÃO versionar) ---
+.env
+.env.local
+.env.*.local
+
+# --- Banco de dados SQLite (artefato de runtime) ---
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# --- Logs e dados de runtime ---
+logs/
+*.log
+data/
+uploads/
+
+# --- Caches de ferramentas de teste e qualidade ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.cache/
+
+# --- IDEs e editores ---
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
