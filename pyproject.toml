@@ -1,0 +1,30 @@
+# P0912 ECOMMERCE — Configuração de ferramentas de desenvolvimento.
+#
+# Este pyproject.toml contém APENAS configuração de ferramentas
+# (pytest, etc.). Não há seção [build-system] nem metadados de
+# distribuição, porque o projeto é didático e não é instalável
+# como pacote pip.
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+# A flag -ra mostra um sumário curto de TODOS os resultados que
+# não foram passes (skipped, xfailed, errors), o que facilita
+# diagnóstico em aulas com muitos arquivos de teste.
+addopts = "-ra"
+# Marcadores das 9 categorias de teste do material didático.
+# Cada arquivo de teste do aluno deve declarar o marcador
+# correspondente via @pytest.mark.<categoria>.
+markers = [
+    "smoke: marca testes de smoke",
+    "functional: marca testes funcionais",
+    "integration: marca testes de integração",
+    "regression: marca testes de regressão",
+    "stress: marca testes de estresse",
+    "security: marca testes de segurança",
+    "ui: marca testes de UI",
+    "fuzz: marca testes de fuzz",
+    "load: marca testes de carga",
+]

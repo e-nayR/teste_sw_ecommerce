@@ -1,0 +1,43 @@
+# P0912 ECOMMERCE — atributos de Git por caminho.
+#
+# Objetivos:
+# 1. Impedir que o conteúdo de docs/MATERIAL_DO_PROFESSOR/ vaze
+#    quando alguém baixar o repositório como zip via
+#    `git archive` (export-ignore).
+# 2. Normalizar finais de linha entre Windows e POSIX para
+#    evitar diffs espúrios em CI/PRs.
+
+# ── Proteção do material do professor ───────────────────────────
+docs/MATERIAL_DO_PROFESSOR/                export-ignore
+docs/MATERIAL_DO_PROFESSOR/**              export-ignore
+
+# ── Normalização de line endings ────────────────────────────────
+* text=auto eol=lf
+
+# Forçar LF mesmo em fontes editadas no Windows
+*.py        text eol=lf
+*.md        text eol=lf
+*.html      text eol=lf
+*.css       text eol=lf
+*.js        text eol=lf
+*.toml      text eol=lf
+*.ini       text eol=lf
+*.lock      text eol=lf
+*.mako      text eol=lf
+.env*       text eol=lf
+.gitignore  text eol=lf
+Makefile    text eol=lf
+
+# Scripts shell sempre LF
+*.sh        text eol=lf
+
+# ── Binários ────────────────────────────────────────────────────
+*.db        binary
+*.sqlite    binary
+*.sqlite3   binary
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.ico       binary
+*.pdf       binary

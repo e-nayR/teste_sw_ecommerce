@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Catálogo · {{ app_name }}{% endblock %}
+
+{% block content %}
+<section data-testid="catalogo">
+    <h1>Catálogo</h1>
+
+    {% if erro %}
+    <div data-testid="error-message" class="error">
+        {{ erro }}
+    </div>
+    {% endif %}
+
+    {% if produtos %}
+    <ul class="grid" data-testid="lista-produtos">
+        {% for p in produtos %}
+        <li class="produto-card" data-testid="produto-card-{{ p.id }}">
+            <h2 data-testid="produto-nome-{{ p.id }}">{{ p.nome }}</h2>
+            <p class="preco" data-testid="produto-preco-{{ p.id }}">R$ {{ "%.2f"|format(p.preco) }}</p>
+            <p class="estoque" data-testid="produto-estoque-{{ p.id }}">Estoque: {{ p.estoque }}</p>
+
+            {% if usuario %}
+            <form action="/carrinho/itens" method="POST" class="form-add">
+                <input type="hidden" name="produto_id" value="{{ p.id }}">
+                <label>
+                    Quantidade:
+                    <input type="number" name="quantidade" min="1" max="100" value="1"
+                           data-testid="input-quantidade-{{ p.id }}" required>
+                </label>
+                <button type="submit" data-testid="btn-adicionar-{{ p.id }}"
+                        data-produto-id="{{ p.id }}">
+                    Adicionar ao carrinho
+                </button>
+            </form>
+            {% else %}
+            <p class="login-cta">
+                <a href="/login" data-testid="cta-login-produto-{{ p.id }}">Faça login para comprar</a>
+            </p>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p data-testid="catalogo-vazio">Catálogo vazio.</p>
+    {% endif %}
+</section>
+{% endblock %}

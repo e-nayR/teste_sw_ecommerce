@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ app_name }}{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div data-testid="loading-overlay" id="loading-overlay" hidden>
+        <div class="loading-spinner">Carregando…</div>
+    </div>
+
+    <header data-testid="header">
+        <nav>
+            <a href="/" data-testid="link-home" class="brand">{{ app_name }}</a>
+            <span class="grow"></span>
+            {% if usuario %}
+                <a href="/carrinho" data-testid="link-carrinho">Carrinho</a>
+                <a href="/pedidos" data-testid="link-pedidos">Meus pedidos</a>
+                <span data-testid="usuario-logado">Olá, {{ usuario.nome }}</span>
+                <form action="/logout" method="POST" class="inline-form">
+                    <button type="submit" data-testid="btn-logout" class="link-btn">Sair</button>
+                </form>
+            {% else %}
+                <a href="/login" data-testid="link-login">Entrar</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main data-testid="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer data-testid="footer">
+        <small>{{ app_name }} v{{ app_version }}</small>
+    </footer>
+
+    <script src="/static/app.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
