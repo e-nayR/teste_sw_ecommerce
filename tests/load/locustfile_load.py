@@ -4,22 +4,25 @@ class CompradorEcommerce(HttpUser):
     wait_time = between(1, 3)
 
     def on_start(self):
-        """ Executado no início: Faz o login e guarda o token de autenticação """
+        """ Executado no início: Faz o login e guarda o token """
+        # 1. Credenciais corretas
         credenciais = {
-            "email": "aluno@uni7.edu.br",
-            "senha": "teste123"
+            "username": "aluno@uni7.edu.br",
+            "password": "teste123"
         }
-        res = self.client.post("/api/login", json=credenciais, name="/api/login")
         
-        if res.status_code == 200:
-            body = res.json()
-            self.token = body["access_token"]
-            self.client.headers.update = ({
-                "Authorization": f"Bearer {self.token}"
-            })
-
-        else:
-            print(f"Falha no login: {res.status_code}")
+        # 2. Envia como 'formulário' (data=) para evitar o erro 422
+        resposta = self.client.post("/api/login", data=credenciais, name="/api/login")
+        
+        # 3. TRUQUE DE QA: Se a API devolver um token JSON, pegamos nele e forçamos no cabeçalho!
+        if resposta.status_code == 200:
+            try:
+                dados = resposta.json()
+                if "access_token" in dados:
+                    token = dados["access_token"]
+                    self.client.headers.update({"Authorization": f"Bearer {token}"})
+            except ValueError:
+                pass # Se não devolver JSON, significa que o Cookie funcionou.
 
     @task(2)
     def ver_catalogo(self):
