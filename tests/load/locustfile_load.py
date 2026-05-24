@@ -5,11 +5,23 @@ class CompradorEcommerce(HttpUser):
 
     def on_start(self):
         """ Executado no início: Faz o login e guarda o token """
-        # 1. Credenciais corretas
+        # O SEGREDO FOI DESVENDADO: A API espera 'email' e 'senha' em português!
         credenciais = {
-            "username": "aluno@uni7.edu.br",
-            "password": "teste123"
+            "email": "aluno@uni7.edu.br",
+            "senha": "teste123" 
         }
+        
+        # Como o erro indicava "body.senha", confirmamos que a API espera JSON mesmo (json=)
+        resposta = self.client.post("/api/login", json=credenciais, name="/api/login")
+        
+        # Capturamos o token e injetamos na autorização das compras
+        if resposta.status_code == 200:
+            try:
+                dados = resposta.json()
+                if "access_token" in dados:
+                    self.client.headers.update({"Authorization": f"Bearer {dados['access_token']}"})
+            except ValueError:
+                pass
         
         # 2. Envia como 'formulário' (data=) para evitar o erro 422
         resposta = self.client.post("/api/login", data=credenciais, name="/api/login")
